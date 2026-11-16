@@ -1,0 +1,4 @@
+-- ORM metadata creates these tables at startup. Initial audit reference, not a migration runner.
+-- thermal_batches(name UNIQUE), temperature_points(batch_id, sequence UNIQUE, recorded_at UNIQUE)
+-- segmentation_runs(config JSON, result JSON), segments(run_id, position UNIQUE), inspection_notes(segment_snapshot JSON)
+-- users(email UNIQUE), audit_logs. See src/models for full columns and FK definitions.

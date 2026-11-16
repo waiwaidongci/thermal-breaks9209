@@ -1,0 +1,9 @@
+from .validation import validate_points,validate_config
+from .costs import StableCosts
+from .dynamic_program import build_frontier
+from .penalty_path import select_partition,evaluate_path
+from .fingerprint import fingerprint
+
+def analyze(batch,points,config):
+ points=validate_points(points);feasible=validate_config(config,len(points));costs=StableCosts([p['temperature'] for p in points]);frontier=build_frontier(costs,config['min_size'],config['max_segments']);selected=select_partition(frontier,costs,config['penalty']);path=evaluate_path(frontier,costs,config['penalties']+[config['penalty']])
+ return {**selected,'n':len(points),'feasible_max_segments':feasible,'requested_max_segments':config['max_segments'],'min_size':config['min_size'],'fingerprint':fingerprint(batch,points,config),'series':[{'sequence':p['sequence'],'recorded_at':p['recorded_at'].isoformat() if hasattr(p['recorded_at'],'isoformat') else p['recorded_at'],'temperature':p['temperature']} for p in points],'penalty_path':path,'rss_frontier':[{'segments_count':k,'optimal_rss':float(frontier['dp'][k,len(points)]*costs.scale*costs.scale)} for k in range(1,feasible+1)],'dp_builds':1,'numeric_stability':{'origin':float(costs.origin),'scale':float(costs.scale),'prefix_precision':'numpy.longdouble centered/scaled cumulative moments'},'boundary_definition':'breakpoint b is left sample count: zero-based [0,b) ends at displayed sequence b; next starts sequence b+1','tie_rule':'equal objective prefers fewer segments within relative longdouble tolerance; fixed-K uses earliest prior cut within relative longdouble roundoff tolerance (earliest last cut, recursively)','interpretation':'Offline piecewise-constant mean approximation. Penalty path is sensitivity, not a confidence interval, online alarm, or causal attribution. Smooth drift can be approximated as steps; independent equal-variance segment errors are a working approximation.'}

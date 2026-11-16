@@ -1,0 +1,1 @@
+import {request,post} from './client';export const researchApi={runs:()=>request('/runs'),segments:()=>request('/segments'),notes:()=>request('/notes'),createRun:(data:any)=>post('/runs',data),createNote:(data:any)=>post('/notes',data),approve:(id:number,data:any)=>request('/notes/'+id+'/approval',{method:'PATCH',body:JSON.stringify(data)})};

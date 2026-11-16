@@ -1,0 +1,1 @@
+export const ROLES={admin:'工艺研究负责人',analyst:'热程分析员',viewer:'巡查观察员'};export const RUN_STATUS={queued:'等待分段',running:'精确求解中',succeeded:'已归档',failed:'失败'};export const NOTE_STATUS={draft:'待审阅',approved:'已确认',rejected:'已退回'};

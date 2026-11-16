@@ -1,0 +1,1 @@
+import {request,post} from './client';export const catalogApi={batches:()=>request('/batches'),points:()=>request('/points'),create:(data:any)=>post('/batches',data),edit:(id:number,temperature:number)=>request('/points/'+id,{method:'PATCH',body:JSON.stringify({temperature})})};
